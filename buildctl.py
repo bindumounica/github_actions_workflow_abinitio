@@ -12,7 +12,7 @@ for g in manifest["graphs"]:
     print(f"Compiling Ab Initio graph: {name}")
 
     # MOCK compile (replace with air compile in real env)
-    out = f"dist/{name}"
+    out = f"{name}"
     os.makedirs(out, exist_ok=True)
     subprocess.run(["cp", "-r", path, out], check=True)
 
