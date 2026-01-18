@@ -1,25 +1,29 @@
-import os, yaml, subprocess
+#!/bin/bash
+set -e
 
-with open("build.yaml") as f:
-    manifest = yaml.safe_load(f)
+NAME=$1
+GRAPH_OUT=$2
 
-os.makedirs("dist", exist_ok=True)
+echo "Generating ETL component from graph: $NAME"
+echo "Graph output path: $GRAPH_OUT"
 
-for g in manifest["graphs"]:
-    name = g["name"]
-    path = g["path"]
+INTERFACE_FILE="$GRAPH_OUT/$NAME/interface.yaml"
 
-    print(f"Compiling Ab Initio graph: {name}")
+if [[ ! -f "$INTERFACE_FILE" ]]; then
+  echo "ERROR: interface.yaml not found at $INTERFACE_FILE"
+  echo "Directory contents:"
+  ls -R "$GRAPH_OUT"
+  exit 1
+fi
 
-    # MOCK compile (replace with air compile in real env)
-    out = f"{name}"
-    os.makedirs(out, exist_ok=True)
-    subprocess.run(["cp", "-r", path, out], check=True)
+mkdir -p etl-component/runtime/$NAME
 
-    print("Generating ETL component")
-    subprocess.run(
-        ["bash", "build/generate_component.sh", name, out],
-        check=True
-    )
+cp "$INTERFACE_FILE" etl-component/component.yaml
 
-print("ETL component build complete")
+cat <<EOF >> etl-component/component.yaml
+
+runtime: container
+componentName: ${NAME}-etl
+EOF
+
+echo "ETL component generated successfully"
