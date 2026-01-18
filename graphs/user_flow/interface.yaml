@@ -1,0 +1,6 @@
+inputs:
+  - name: input_dataset
+    type: dataset
+outputs:
+  - name: output_dataset
+    type: dataset
