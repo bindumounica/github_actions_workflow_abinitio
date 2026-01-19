@@ -1,0 +1,66 @@
+plugins {
+    id 'base'
+}
+
+ext {
+    graphName = 'user_flow'
+    versionTag = System.getenv("GITHUB_REF_NAME") ?: "local"
+    imageName = "bindumounica87/etl-component"
+}
+
+/**
+ * 1. Compile / collect Ab Initio graphs (mocked for POC)
+ */
+tasks.register('compileGraphs', Exec) {
+    description = 'Collect Ab Initio orchestration graphs'
+    commandLine 'bash', '-c', """
+      rm -rf dist
+      mkdir -p dist/${graphName}/${graphName}
+      cp -r graphs/${graphName}/* dist/${graphName}/${graphName}/
+    """
+}
+
+/**
+ * 2. Generate ETL component (platform responsibility)
+ */
+tasks.register('generateEtlComponent', Exec) {
+    description = 'Generate ETL component from graphs'
+    dependsOn compileGraphs
+    commandLine 'bash', 'build/generate_component.sh',
+            graphName,
+            "dist/${graphName}"
+}
+
+/**
+ * 3. Package TAR
+ */
+tasks.register('packageTar', Tar) {
+    description = 'Package ETL component as TAR'
+    dependsOn generateEtlComponent
+    archiveFileName = "etl-component-${versionTag}.tar.gz"
+    destinationDirectory = layout.buildDirectory.dir("artifacts")
+    compression = Compression.GZIP
+    from('etl-component')
+}
+
+/**
+ * 4. Build OCI image
+ */
+tasks.register('buildDockerImage', Exec) {
+    description = 'Build OCI image'
+    dependsOn packageTar
+    commandLine 'docker', 'build',
+            '-t', "etl-component:${versionTag}", '.'
+}
+
+/**
+ * 5. Push OCI image
+ */
+tasks.register('pushDockerImage', Exec) {
+    description = 'Push OCI image to Docker Hub'
+    dependsOn buildDockerImage
+    commandLine 'bash', '-c', """
+      docker tag etl-component:${versionTag} ${imageName}:${versionTag}
+      docker push ${imageName}:${versionTag}
+    """
+}
