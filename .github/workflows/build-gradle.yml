@@ -29,13 +29,17 @@ jobs:
         run: |
           gradle wrapper --gradle-version 8.6
 
-      - name: Commit Gradle Wrapper
+      - name: Commit Gradle Wrapper (if needed)
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add gradlew gradlew.bat gradle/
-          git commit -m "Add Gradle Wrapper"
-          git push
+            git config user.name "github-actions"
+            git config user.email "github-actions@github.com"
+            git add gradlew gradlew.bat gradle/
+            if git diff --cached --quiet; then
+              echo "No changes to commit"
+            else
+              git commit -m "Add Gradle Wrapper"
+              git push
+            fi        
 
       # 3️⃣ Login to Docker Hub (needed before push)
       - name: Login to Docker Hub
