@@ -55,7 +55,7 @@ jobs:
 
       - name: Tag and push image
         run: |
-                        docker tag etl-component:${{ github.ref_name }} \
+                        docker tag etl-component-build-gradle:${{ github.ref_name }} \
                           ${{ secrets.DOCKERHUB_USERNAME }}/etl-component:${{ github.ref_name }}
                     
                         docker push ${{ secrets.DOCKERHUB_USERNAME }}/etl-component-build-gradle:${{ github.ref_name }}
@@ -64,5 +64,5 @@ jobs:
       - name: Upload TAR artifact
         uses: actions/upload-artifact@v4
         with:
-          name: etl-component-tar
+          name: etl-component-build-gradle-tar
           path: build/artifacts/*.tar.gz
