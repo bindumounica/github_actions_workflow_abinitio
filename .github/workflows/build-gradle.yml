@@ -56,6 +56,9 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/etl-component:graph-user-flow-v1.1.1
 
+      - name: Ensure pipeline script is executable
+        run: chmod +x runtime/master_pipeline.sh          
+
       - name: Run Master Pipeline
         run: |
               ./runtime/master_pipeline.sh
