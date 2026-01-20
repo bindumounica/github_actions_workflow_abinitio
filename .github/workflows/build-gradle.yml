@@ -54,4 +54,4 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/etl-component:${{ github.ref_name }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/etl-component:graph-user-flow-v1.1.1
