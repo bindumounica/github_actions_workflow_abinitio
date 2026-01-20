@@ -56,6 +56,16 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/etl-component:graph-user-flow-v1.1.1
 
+      # Build & Push enrichment image
+      - name: Build & Push Enrichment Component Image
+        uses: docker/build-push-action@v5
+        with:
+          context: enrich-component
+          file: enrich-component/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/enrich-component:v1
+
       - name: Ensure pipeline script is executable
         run: chmod +x runtime/master_pipeline.sh          
 
