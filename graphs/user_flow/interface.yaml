@@ -4,3 +4,5 @@ inputs:
 outputs:
   - name: output_dataset
     type: dataset
+runtime: container
+componentName: orchestrator-etl

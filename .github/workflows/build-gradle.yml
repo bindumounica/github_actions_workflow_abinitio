@@ -55,3 +55,8 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/etl-component:graph-user-flow-v1.1.1
+
+      - name: Run Master Pipeline
+        run: |
+              ./runtime/master_pipeline.sh
+          GitHub Actions does this internally:
