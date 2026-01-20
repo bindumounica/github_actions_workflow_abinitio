@@ -11,10 +11,11 @@ docker run --rm \
 echo "[PIPELINE] user_flow_etl completed successfully"
 
 echo "[PIPELINE] Running downstream transformation"
-docker run --rm \
-  -e INPUT_DATA='{"source":"user_flow_output"}' \
-  bindumounica87/enrich-component:v1
-
-echo "[PIPELINE] Downstream transformation completed"
+if [ "${RUN_ENRICH:-true}" = "true" ]; then
+  docker run --rm bindumounica87/enrich-component:v1
+  echo "[PIPELINE] Downstream transformation completed"
+else
+  echo "[PIPELINE] Skipping enrichment step"
+fi
 
 echo "[PIPELINE] Master pipeline completed successfully"
