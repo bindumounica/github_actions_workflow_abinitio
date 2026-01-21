@@ -2,8 +2,8 @@ name: Realtime ETL Scheduler (Execution Only)
 
 on:
   # Scheduler trigger (Control-M / cron equivalent)
-  schedule:
-    - cron: "30 4 * * *"   # Every day at 04:30 AM UTC
+#   schedule:
+    # - cron: "30 4 * * *"   # Every day at 04:30 AM UTC
 
   # Manual trigger for demo
   workflow_dispatch:
