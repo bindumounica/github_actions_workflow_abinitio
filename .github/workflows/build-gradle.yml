@@ -33,6 +33,15 @@ jobs:
         run: |
           ./gradlew clean packageTar
 
+      - name: Sonarqube analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          ./gradlew sonarqube \
+            -Dsonar.projectKey=github_actions_workflow_abinitio_etl-component-gradle \
+            -Dsonar.host.url=$SONAR_HOST_URL \
+            -Dsonar.login=$SONAR_TOKEN
+
       # 5️⃣ Upload TAR artifact
       - name: Upload ETL TAR artifact
         uses: actions/upload-artifact@v4
@@ -46,13 +55,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-        
-      - name: Push tar to Docker hub
-        with:
-          context: build/artifacts
-          push: true
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/*.tar.gz
 
       # 7️⃣ Build & Push OCI Image
       - name: Build and Push Docker Image
@@ -62,6 +64,10 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/etl-component:graph-user-flow-v1.1.1
+
+      - name: Save image as Tar
+        run: |
+          docker save ${{ secrets.DOCKERHUB_USERNAME }}/etl-component:graph-user-flow-v1.1.1 -o build/artifacts/etl-component-image.tar
 
       # Build & Push enrichment image
       - name: Build & Push Enrichment Component Image
