@@ -40,7 +40,6 @@ jobs:
           ./gradlew sonar \
             -Dsonar.projectKey=github_actions_workflow_abinitio_etl-component-gradle \
             -Dsonar.login=$SONAR_TOKEN
-            -Dsonar.gradle.skipCompile=true
 
       # 5️⃣ Upload TAR artifact
       - name: Upload ETL TAR artifact
