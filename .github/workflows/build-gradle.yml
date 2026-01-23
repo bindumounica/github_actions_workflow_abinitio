@@ -84,3 +84,4 @@ jobs:
       - name: Run Master Pipeline
         run: |
               ./runtime/master_pipeline.sh
+              
