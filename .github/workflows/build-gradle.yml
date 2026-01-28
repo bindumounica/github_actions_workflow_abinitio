@@ -36,15 +36,16 @@ jobs:
       - name: SonarCloud Scan
         run: ./gradlew clean build sonar
 
-      - name: Sonarqube analysis
+      - name: SonarCloud Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           ./gradlew clean build sonar \
-          -Dsonar.projectKey=bindumounica_github_actions_workflow_abinitio \
-          -Dsonar.organization=bindumounica \
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.login=$SONAR_TOKEN
+            -Dsonar.token=$SONAR_TOKEN \
+            -Dsonar.projectKey=bindumounica_github_actions_workflow_abinitio \
+            -Dsonar.organization=bindumounica \
+            -Dsonar.host.url=https://sonarcloud.io
+      
 
       # 5️⃣ Upload TAR artifact
       - name: Upload ETL TAR artifact

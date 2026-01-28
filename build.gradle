@@ -78,3 +78,8 @@ tasks.register('pushDockerImage', Exec) {
       docker push ${imageName}:${versionTag}
     """
 }
+sonar.projectKey=bindumounica_github_actions_workflow_abinitio
+sonar.organization=bindumounica
+sonar.host.url=https://sonarcloud.io
+sonar.gradle.skipCompile=true
+sonar.token=${{ secrets.SONAR_TOKEN }}
