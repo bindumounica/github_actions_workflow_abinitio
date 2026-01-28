@@ -11,19 +11,10 @@ ext {
 
 sonarqube {
      properties {
-        // ✅ SonarCloud organization (MANDATORY)
-        property "sonar.organization", "bindumounica"
-
-        // ✅ Project identity
         property "sonar.projectKey", "bindumounica_github_actions_workflow_abinitio"
-        property "sonar.projectName", "AbInitio ETL Platform"
-
-        // ✅ ETL sources
-        property "sonar.sources", "graphs,scripts,etl-component"
-        property "sonar.exclusions", "**/dist/**,**/build/**,**/*.tar.gz"
-
-        // ✅ ETL = no compilation
-        property "sonar.gradle.skipCompile", "true"
+        property "sonar.organization", "bindumounica"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.sources", "."
     }
 }
 
