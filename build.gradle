@@ -9,13 +9,17 @@ ext {
     imageName = "bindumounica87/etl-component"
 }
 
-// sonarqube {
-//      properties {
-//         property "sonar.projectKey", "bindumounica_github_actions_workflow_abinitio"
-//         property "sonar.organization", "bindumounica"
-//         property "sonar.host.url", "https://sonarcloud.io"
-//     }
-// }
+sonarqube {
+     properties {
+        // # --- SonarCloud configuration ---
+        property 'sonar.projectKey', 'bindumounica_github_actions_workflow_abinitio'
+        property 'sonar.organization', 'bindumounica'
+        property 'sonar.host.url', 'https://sonarcloud.io'
+
+        // # Avoid deprecated implicit compile
+        property 'sonar.gradle.skipCompile', 'true'
+    }
+}
 
 /**
  * 1. Compile / collect Ab Initio graphs (mocked for POC)
