@@ -41,9 +41,9 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           ./gradlew clean build sonar \
-          -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
-          -Dsonar.organization=${{ secrets.SONAR_ORG }} \
-          -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.projectKey=bindumounica_github_actions_workflow_abinitio \
+            -Dsonar.organization=bindumounica \
+            -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
       # 5️⃣ Upload TAR artifact

@@ -11,10 +11,9 @@ ext {
 
 sonarqube {
      properties {
-        property "sonar.projectKey", 'bindumounica_github_actions_workflow_abinitio'
-        property "sonar.organization", 'bindumounica'
-        property "sonar.host.url", 'https://sonarcloud.io'
-        property "sonar.gradle.skipCompile", "true"
+        property "sonar.projectKey", "bindumounica_github_actions_workflow_abinitio"
+        property "sonar.organization", "bindumounica"
+        property "sonar.host.url", "https://sonarcloud.io"
     }
 }
 
