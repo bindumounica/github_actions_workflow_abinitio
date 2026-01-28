@@ -45,7 +45,8 @@ jobs:
       - name: SonarCloud Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew clean build sonar \
+        run: |
+            ./gradlew clean build sonar \
             -Dsonar.token=$SONAR_TOKEN \
 
       # - name: SonarCloud Scan
