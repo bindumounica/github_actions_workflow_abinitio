@@ -33,27 +33,30 @@ jobs:
         run: |
           ./gradlew clean packageTar
 
-      - name: SonarCloud Scan
-        run: ./gradlew clean build sonar
-
       - name: Debug SONAR_TOKEN presence
         run: |
-          if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
-            echo "SONAR_TOKEN is NOT set"
-            exit 1
-          else
-            echo "SONAR_TOKEN is set"
-          fi      
+            if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
+              echo "SONAR_TOKEN is NOT set"
+              exit 1
+            else
+              echo "SONAR_TOKEN is set"
+            fi      
 
       - name: SonarCloud Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          ./gradlew clean build sonar \
+        run: ./gradlew clean build sonar \
             -Dsonar.token=$SONAR_TOKEN \
-            -Dsonar.projectKey=bindumounica_github_actions_workflow_abinitio \
-            -Dsonar.organization=bindumounica \
-            -Dsonar.host.url=https://sonarcloud.io
+
+      # - name: SonarCloud Scan
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #   run: |
+      #     ./gradlew clean build sonar \
+      #       -Dsonar.token=$SONAR_TOKEN \
+      #       -Dsonar.projectKey=bindumounica_github_actions_workflow_abinitio \
+      #       -Dsonar.organization=bindumounica \
+      #       -Dsonar.host.url=https://sonarcloud.io
       
 
       # 5️⃣ Upload TAR artifact
