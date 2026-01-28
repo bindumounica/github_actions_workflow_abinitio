@@ -33,13 +33,18 @@ jobs:
         run: |
           ./gradlew clean packageTar
 
+      - name: SonarCloud Scan
+        run: ./gradlew clean build sonar
+
       - name: Sonarqube analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ./gradlew sonar \
-            -Dsonar.projectKey=github_actions_workflow_abinitio_etl-component-gradle \
-            -Dsonar.login=$SONAR_TOKEN
+          ./gradlew clean build sonar \
+          -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
+          -Dsonar.organization=${{ secrets.SONAR_ORG }} \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
       # 5️⃣ Upload TAR artifact
       - name: Upload ETL TAR artifact
@@ -84,4 +89,3 @@ jobs:
       - name: Run Master Pipeline
         run: |
               ./runtime/master_pipeline.sh
-              
