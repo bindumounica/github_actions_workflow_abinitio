@@ -36,6 +36,15 @@ jobs:
       - name: SonarCloud Scan
         run: ./gradlew clean build sonar
 
+      - name: Debug SONAR_TOKEN presence
+        run: |
+          if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
+            echo "SONAR_TOKEN is NOT set"
+            exit 1
+          else
+            echo "SONAR_TOKEN is set"
+          fi      
+
       - name: SonarCloud Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
